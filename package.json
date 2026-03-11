@@ -1,20 +1,33 @@
 {
   "name": "book-store",
-  "type": "module",
-  "engines": {
-    "node": "22.11.0"
-  },
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "docker compose up -d &&  node index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdoamin9991/book-store-nodejs.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdoamin9991/book-store-nodejs/issues"
+  },
+  "homepage": "https://github.com/abdoamin9991/book-store-nodejs#readme",
   "dependencies": {
-    "@prisma/client": "^7.4.2",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
-    "prisma": "^7.4.2"
+    "mysql2": "^3.19.1"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.9"
   }
 }
