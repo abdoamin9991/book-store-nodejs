@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: Book Store API
+  version: 1.0.0
+  description: CRUD API for managing books
+servers:
+  - url: http://localhost:3000
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: The Hobbit
+        author:
+          type: string
+          example: J.R.R. Tolkien
+        publishedYear:
+          type: integer
+          example: 1937
+        createdAt:
+          type: string
+          format: date-time
+    BookInput:
+      type: object
+      required:
+        - title
+        - author
+        - publishedYear
+      properties:
+        title:
+          type: string
+          example: The Hobbit
+        author:
+          type: string
+          example: J.R.R. Tolkien
+        publishedYear:
+          type: integer
+          example: 1937
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: object
+
+paths:
+  /api/books:
+    get:
+      summary: Get all books
+      tags: [Books]
+      responses:
+        "200":
+          description: List of all books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        "422":
+          description: Failed to fetch books
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new book
+      tags: [Books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+      responses:
+        "201":
+          description: The created book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "422":
+          description: Failed to create book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/books/{id}:
+    get:
+      summary: Get a book by ID
+      tags: [Books]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The book ID
+      responses:
+        "200":
+          description: The book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "422":
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: Update a book
+      tags: [Books]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The book ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+      responses:
+        "200":
+          description: The updated book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "422":
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a book
+      tags: [Books]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The book ID
+      responses:
+        "200":
+          description: Book deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book deleted successfully
+        "422":
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
