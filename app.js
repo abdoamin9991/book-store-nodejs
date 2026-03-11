@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import bookRoutes from "#routes/book.routes";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const mongoDBURL = process.env.mongoDBURL;
 
+app.use(cors());
 app.use(express.json());
 app.use("/api/books", bookRoutes);
 

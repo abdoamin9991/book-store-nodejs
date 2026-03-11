@@ -59,6 +59,6 @@ const books = [
 
 await mongoose.connect(process.env.mongoDBURL);
 await Book.deleteMany();
-await Book.insertMany(books);
+for (const book of books) await Book.create(book);
 console.log("Seeded 50 books");
 mongoose.disconnect();
