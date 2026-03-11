@@ -1,9 +1,12 @@
 import { Book } from "#models/book.model";
 
-const getAllBooks = async (req, res) => {
+const getAllBooksPaginated = async (req, res) => {
     try {
-        const books = await Book.find();
-        res.status(200).json({ books, success: true });
+        const { page = 1, limit = 10 } = req.query;
+        const books = await Book.find()
+            .skip((page - 1) * limit)
+            .limit(limit);
+        res.status(200).json({ books, success: true, total: books.length, page, limit });
     } catch (error) {
         res.status(400).json({ message: error.message, success: false });
     }
@@ -45,4 +48,4 @@ const deleteBook = async (req, res) => {
     }
 };
 
-export { getAllBooks, getBookById, createBook, updateBook, deleteBook };
+export { getAllBooksPaginated, getBookById, createBook, updateBook, deleteBook };

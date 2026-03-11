@@ -1,12 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import bookRoutes from "#routes/book.routes";
 dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const mongoDBURL = process.env.mongoDBURL;
+
+app.use(express.json());
+app.use("/api/books", bookRoutes);
 
 mongoose
   .connect(mongoDBURL)
@@ -19,8 +23,4 @@ mongoose
     console.log(error);
   });
 
-app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello World");
-});

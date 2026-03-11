@@ -18,7 +18,8 @@
   },
   "imports": {
     "#models/*": "./models/*.js",
-    "#controllers/*": "./controllers/*.js"
+    "#controllers/*": "./controllers/*.js",
+    "#routes/*": "./routes/*.js"
   },
   "devDependencies": {
     "eslint": "^10.0.3",
